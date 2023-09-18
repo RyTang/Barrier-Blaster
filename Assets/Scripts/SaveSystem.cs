@@ -42,7 +42,8 @@ public class SaveSystem : MonoBehaviour
     public GameData LoadGameData(){
         if (!File.Exists(filePath)){
             Debug.Log("Unable to find the file path, Save file may not have been created yet");
-            return null;
+            // FIXME: This needs to be changed accordingly to cater to first time users
+            return new GameData();
         }
 
         // Read in file

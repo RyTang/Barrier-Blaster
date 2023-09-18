@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent endGameEvent;
     [SerializeField] private GameEvent restartGameEvent;
     [SerializeField] private GameEvent startGameEvent;
+    [SerializeField] private GameEvent returnToStartMenuEvent;
 
     void Start()
     {
@@ -31,6 +33,10 @@ public class GameManager : MonoBehaviour
         scoreSystem.SetDurationSurvived(scoreSystem.GetDurationSurvived() + Time.fixedDeltaTime);
     }
 
+    // SCENE LOADER
+
+
+    // EVENT TRIGGERER
 
     /// <summary>
     /// Will be triggered on Player's Death, any objects that needs to be triggered upon player's death should be tied to this event
@@ -51,13 +57,12 @@ public class GameManager : MonoBehaviour
 
         gameData.UpdateGameData(scoreSystem);
 
-        // TODO: Load and save data points;
-
         SaveSystem.INSTANCE.SaveGameData(gameData);
-        // TODO: Save Progress
         restartGameEvent.TriggerEvent();
 
         // Load Scene
+        SceneManager.LoadScene((int) SceneName.GAME);
+
         
         Time.timeScale = 1f;
     }
@@ -72,6 +77,17 @@ public class GameManager : MonoBehaviour
         SaveSystem.INSTANCE.SaveGameData(gameData);
     }
 
+    public void OnReturnToStartMenu(){
+        GameData gameData = SaveSystem.INSTANCE.LoadGameData();
+
+        gameData.UpdateGameData(scoreSystem);
+
+        SaveSystem.INSTANCE.SaveGameData(gameData);
+        returnToStartMenuEvent.TriggerEvent();
+
+        SceneManager.LoadScene((int) SceneName.START_MENU);
+    }
+
     /// <summary>
     /// Any Objects that needs to be reset should be listening to the Start Game Event
     /// </summary>
@@ -80,6 +96,9 @@ public class GameManager : MonoBehaviour
         // TODO: Load Data Points and distribute the data accordingly
         GameData gameData = SaveSystem.INSTANCE.LoadGameData();
         startGameEvent.TriggerEvent();
+
+        // Start Game
+        SceneManager.LoadScene((int) SceneName.GAME);
 
         Time.timeScale = 1;
     }
