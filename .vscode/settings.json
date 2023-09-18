@@ -1,0 +1,31 @@
+{
+    "files.exclude":
+    {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.git": true,
+        "**/*.meta": true,
+        "UserSettings": true,
+        "Library": true,
+        "Logs": true,
+        "obj": true,
+        "Packages": true,
+        "Temp": true,
+        "ProjectSettings": true,
+        "*.csproj": true,
+        "*.sln": true,
+        "Barrier Blaster.sln": true,
+        "**/.vscode": true
+    },
+    "cSpell.ignoreWords": [
+        "Raycast"
+    ],
+    "explorerExclude.backup": {},
+    "cSpell.words": [
+        "Behaviour"
+    ]
+}
