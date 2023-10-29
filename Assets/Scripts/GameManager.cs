@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         }
 
         INSTANCE = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void FixedUpdate()
@@ -51,38 +52,40 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Will be triggered on Player's Death, any objects that needs to be triggered upon player's death should be tied to this event
     /// </summary>
-    public void OnRestartGame(){
-        
-        GameData gameData = SaveSystem.INSTANCE.LoadGameData();
-
-        gameData.UpdateGameData(scoreSystem);
-
-        SaveSystem.INSTANCE.SaveGameData(gameData);
+    public void OnRestartGame()
+    {
+        UpdateProgress();
         restartGameEvent.TriggerEvent();
 
         // Load Scene
-        SceneManager.LoadScene((int) SceneName.GAME);
+        SceneManager.LoadScene((int)SceneName.GAME);
 
-        
+
         Time.timeScale = 1f;
     }
 
-    public void OnQuitGame(){
+    private void UpdateProgress()
+    {
         GameData gameData = SaveSystem.INSTANCE.LoadGameData();
+
+        if (gameData is null)
+        {
+            gameData = new GameData();
+        }
 
         gameData.UpdateGameData(scoreSystem);
 
-        // TODO: Load and save data points;
+        scoreSystem.ResetScoreSystem();
 
         SaveSystem.INSTANCE.SaveGameData(gameData);
     }
 
+    public void OnQuitGame(){
+        UpdateProgress();
+    }
+
     public void OnReturnToStartMenu(){
-        GameData gameData = SaveSystem.INSTANCE.LoadGameData();
-
-        gameData.UpdateGameData(scoreSystem);
-
-        SaveSystem.INSTANCE.SaveGameData(gameData);
+        UpdateProgress();
         returnToStartMenuEvent.TriggerEvent();
 
         SceneManager.LoadScene((int) SceneName.START_MENU);

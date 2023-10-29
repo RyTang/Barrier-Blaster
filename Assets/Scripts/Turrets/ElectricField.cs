@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricField : PlayerBody
+public class ElectricField : BaseBlock
 {
     public LayerMask layersToTarget;
     public Color rangeColor;

@@ -1,3 +1,6 @@
+/// <summary>
+/// Contains the Layers used in the game
+/// </summary>
 public enum LayerName{
     PLAYER = 3,
     WALL = 6,

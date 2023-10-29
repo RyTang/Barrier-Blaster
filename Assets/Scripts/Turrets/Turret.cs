@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : PlayerBody
+public class Turret : BaseBlock
 {
     public LayerMask layersToTarget;
     public Color detectionRangeColor;

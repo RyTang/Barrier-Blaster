@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using System;
 using UnityEngine;
@@ -15,19 +17,25 @@ public class UiScoreboard : MonoBehaviour
         Type type = typeof(GameData);
         FieldInfo[] properties = type.GetFields();
 
-        int i = 0;
         foreach (FieldInfo variable in properties) {
-            if (i == 2){
-                break;
-            }
             UiScoreRow row = Instantiate(uiRow, uiDisplayArea).GetComponent<UiScoreRow>();
-            row.variable.SetText(variable.Name);
+            
+            string pattern = @"(?<=[a-z])(?=[A-Z])";
+            string[] parts = Regex.Split(variable.Name, pattern);
+            
+            List<string> adjusted_parts = new List<string>();
+            foreach (string part in parts){
+                adjusted_parts.Add(char.ToUpper(part[0]) + part.Substring(1));
+            }
+
+            string variableName = string.Join(" ", adjusted_parts);
+
+            row.variable.SetText(variableName);
             string text = variable.GetValue(gameData).ToString();
             if (text.Length > 1 && text.Contains(".")) {  // Only remove decimals if more than 1 character
                 text = text.Substring(0, text.IndexOf(".", 0));
             }
             row.score.SetText(text);
-            i++;
         }
     }
 }

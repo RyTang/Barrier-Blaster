@@ -30,7 +30,7 @@ public class SaveSystem : MonoBehaviour
         string saveData = jsonData + "\n" + hash;
         
         // Write JSON data to file path
-        File.WriteAllText(filePath, jsonData);
+        File.WriteAllText(filePath, saveData);
     }
 
     /// <summary>
@@ -48,6 +48,7 @@ public class SaveSystem : MonoBehaviour
 
         // Read in file
         string jsonData = File.ReadAllText(filePath);
+        Debug.Log(jsonData);
 
         // Split Data with Hashed data
         string[] parts = jsonData.Split('\n');
@@ -70,6 +71,10 @@ public class SaveSystem : MonoBehaviour
         }
 
         return null;        
+    }
+
+    public void ClearGameData(){
+        SaveGameData(new GameData());
     }
 
     /// <summary>

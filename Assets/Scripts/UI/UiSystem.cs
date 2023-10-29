@@ -10,6 +10,7 @@ public class UiSystem : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject endGameMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject startMenu;
 
     [Header("Blocker Screen")]
     [SerializeField] private GameObject blockerScreen;
@@ -43,12 +44,16 @@ public class UiSystem : MonoBehaviour
         lifeText.text = scoreSystem.GetLifeAmount().ToString();
     }
 
+    public void ShowEndGameMenu(){
+        ChangeMenuState(UIState.END_MENU);
+    }
+
     /// <summary>
     /// Restarts the Game
     /// </summary>
     public void RestartGameButton(){
         GameManager.INSTANCE.OnRestartGame();
-        ChangeMenuState(UIState.START_GAME);
+        ChangeMenuState(UIState.RUNNING_GAME);
     }
 
     /// <summary>
@@ -64,7 +69,7 @@ public class UiSystem : MonoBehaviour
     /// </summary>
     public void StartGameButton(){
         GameManager.INSTANCE.OnStartGame();
-        ChangeMenuState(UIState.START_GAME);
+        ChangeMenuState(UIState.RUNNING_GAME);
     }
 
     public void PauseGameButton(){
@@ -77,6 +82,11 @@ public class UiSystem : MonoBehaviour
         ChangeMenuState(UIState.RUNNING_GAME);
     }
 
+    public void ReturnToStartButton(){
+        GameManager.INSTANCE.OnReturnToStartMenu();
+        ChangeMenuState(UIState.START_MENU);
+    }
+
     /// <summary>
     /// Used to handle the state changes between menues, detailing what menus should be opened or closed
     /// </summary>
@@ -86,24 +96,28 @@ public class UiSystem : MonoBehaviour
         if (currentState == stateToChangeTo) return;
 
         switch (stateToChangeTo){
-            case UIState.START_GAME:
-                pauseMenu.SetActive(false);
-                endGameMenu.SetActive(false);
-                blockerScreen.SetActive(false);
-                break;
             case UIState.RUNNING_GAME:
                 pauseMenu.SetActive(false);
                 endGameMenu.SetActive(false);
                 blockerScreen.SetActive(false);
+                startMenu.SetActive(false);
                 break;
             case UIState.PAUSE_MENU:
                 pauseMenu.SetActive(true);
                 blockerScreen.SetActive(true);
+                startMenu.SetActive(false);
                 break;
             case UIState.END_MENU:
                 pauseMenu.SetActive(false);
                 endGameMenu.SetActive(true);
                 blockerScreen.SetActive(true);
+                startMenu.SetActive(false);
+                break;
+            case UIState.START_MENU:
+                pauseMenu.SetActive(false);
+                endGameMenu.SetActive(false);
+                blockerScreen.SetActive(false);
+                startMenu.SetActive(false);
                 break;
             default:
                 break;
@@ -114,9 +128,9 @@ public class UiSystem : MonoBehaviour
 }
 
 public enum UIState {
-        START_GAME,
         RUNNING_GAME,
         PAUSE_MENU,
         SETTINGS_MENU,
-        END_MENU
+        END_MENU,
+        START_MENU
     }

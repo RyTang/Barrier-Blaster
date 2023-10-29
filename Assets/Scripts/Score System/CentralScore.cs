@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using System.Threading;
 using System;
 using System.Collections;
@@ -11,11 +12,21 @@ public class CentralScore : ScriptableObject
     [SerializeField] private int lives;
     [SerializeField] private float durationSurvived = 0f;
 
-    public int highestLifeAmount;
-    public int highestScoreAchieved;
+    public int highestLifeAmount = 0;
+    public int highestScoreAchieved = 0;
 
     public GameEvent onScoreChangedEvent;
     public GameEvent onLivesChangedEvent;
+
+    /// <summary>
+    /// Resets the scoreboard of the system to the original starting state;
+    /// </summary>
+    public void ResetScoreSystem(){
+        SetScoreAmount(0);
+        SetDurationSurvived(0);
+        highestLifeAmount = 0;
+        highestScoreAchieved = 0;
+    }
 
 
     /// <summary>

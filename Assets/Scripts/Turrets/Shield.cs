@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Shield : PlayerBody
+public class Wall : BaseBlock
 {
     protected override void PowerMechanism()
     {

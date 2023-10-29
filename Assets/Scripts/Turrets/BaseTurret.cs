@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerBody : MonoBehaviour, IDamageable
+/// <summary>
+/// Base Building Block that is spawnable by the Player
+/// </summary>
+public abstract class BaseBlock : MonoBehaviour, IDamageable
 {
     public float aliveTime = 10;
 
